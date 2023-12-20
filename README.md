@@ -4,7 +4,7 @@ Este é um caso de estudo sobre micro serviços com spring boot. As tecnologias 
 
 - Spring cloud
 
-- Eureka Server, como gateway de API.
+- Eureka Server, como Discovery Server para os micro-serviço.
 
 - KeyCloak, para segurança.
 

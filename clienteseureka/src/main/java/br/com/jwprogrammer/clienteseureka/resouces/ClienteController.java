@@ -3,6 +3,7 @@ package br.com.jwprogrammer.clienteseureka.resouces;
 import br.com.jwprogrammer.clienteseureka.domain.Cliente;
 import br.com.jwprogrammer.clienteseureka.dto.ClienteDTO;
 import br.com.jwprogrammer.clienteseureka.services.ClienteService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("clientes")
+@Slf4j
 public class ClienteController {
 
     @Autowired
@@ -22,6 +24,7 @@ public class ClienteController {
      * */
     @GetMapping
     public String status(){
+        log.info("Obtendo micro-service do cliente");
         return "ok";
     }
 
