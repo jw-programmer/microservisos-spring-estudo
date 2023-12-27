@@ -6,6 +6,8 @@ Este é um caso de estudo sobre micro serviços com spring boot. As tecnologias 
 
 - Eureka Server, como Discovery Server para os micro-serviço.
 
+- OpenFeign, para comunicação sincrona http entre microserviços.
+
 - KeyCloak, para segurança.
 
 - RabbitQM para comunicação de mensageria.
