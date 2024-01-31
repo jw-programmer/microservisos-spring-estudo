@@ -3,6 +3,8 @@ package br.com.jwprogammer.avalicacao.services;
 import br.com.jwprogammer.avalicacao.domain.*;
 import br.com.jwprogammer.avalicacao.exception.DadosClienteNotFoundException;
 import br.com.jwprogammer.avalicacao.exception.ErroComunicacaoException;
+import br.com.jwprogammer.avalicacao.exception.ErroSolicitacaoCartaoException;
+import br.com.jwprogammer.avalicacao.mqueue.SolicitacaoEmissaoCartaoPublisher;
 import br.com.jwprogammer.avalicacao.rest.clients.CartaoClient;
 import br.com.jwprogammer.avalicacao.rest.clients.ClienteClient;
 import feign.FeignException;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +26,9 @@ public class AvaliacaoCreditoService {
 
     @Autowired
     private CartaoClient cartaoRest;
+
+    @Autowired
+    private SolicitacaoEmissaoCartaoPublisher publisher;
 
     public SituacaoCliente obterSituacaoCliente(String cpf) throws DadosClienteNotFoundException, ErroComunicacaoException {
         try {
@@ -75,6 +81,16 @@ public class AvaliacaoCreditoService {
             }
 
             throw new ErroComunicacaoException(e.getMessage(), status);
+        }
+    }
+
+    public Protocolo solicitarEmissaoDeCartao(EmissaoCartao dados) {
+        try {
+            publisher.solicitarCartao(dados);
+            var protocolo = UUID.randomUUID().toString();
+            return new Protocolo(protocolo);
+        }catch (Exception e){
+            throw new ErroSolicitacaoCartaoException(e.getMessage());
         }
     }
 }

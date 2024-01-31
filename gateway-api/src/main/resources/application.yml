@@ -7,6 +7,12 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          #placeholder ater configurar meu próprio realm
+          issuer-uir: http://localhost:8081/realms/mscourserealm
 
 server:
   port: 8080

@@ -1,10 +1,9 @@
 package br.com.jwprogammer.avalicacao.controllers;
 
-import br.com.jwprogammer.avalicacao.domain.AvaliacaoCliente;
-import br.com.jwprogammer.avalicacao.domain.DadosAvaliacao;
-import br.com.jwprogammer.avalicacao.domain.SituacaoCliente;
+import br.com.jwprogammer.avalicacao.domain.*;
 import br.com.jwprogammer.avalicacao.exception.DadosClienteNotFoundException;
 import br.com.jwprogammer.avalicacao.exception.ErroComunicacaoException;
+import br.com.jwprogammer.avalicacao.exception.ErroSolicitacaoCartaoException;
 import br.com.jwprogammer.avalicacao.services.AvaliacaoCreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +44,17 @@ public class AvaliadorCreditoController {
             return ResponseEntity.notFound().build();
         } catch (ErroComunicacaoException e) {
             return ResponseEntity.status(HttpStatus.resolve(e.getHttpError())).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("solicitacao-cartao")
+    public ResponseEntity realizarSolicitacaoCartao(@RequestBody EmissaoCartao dados) {
+        try {
+            Protocolo protocolo = service
+                    .solicitarEmissaoDeCartao(dados);
+            return ResponseEntity.ok(protocolo);
+        } catch (ErroSolicitacaoCartaoException e){
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }
