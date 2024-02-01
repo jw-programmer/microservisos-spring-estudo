@@ -1,6 +1,12 @@
 spring:
   application:
     name: servidoreureka
+  security:
+    basic:
+      enable: true
+    user:
+      name: jw-progammer
+      password: 5151551010
 
 server:
   port: 8761
